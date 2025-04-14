@@ -1,59 +1,68 @@
-/* 頁面設定 */
+/* 基本排版設置 */
 body {
     font-family: 'Comic Sans MS', sans-serif;
-    background: linear-gradient(135deg, rgb(11, 21, 75), #7b9bc4); /* 米色系漸層背景 */
-    max-width: 600px;
+    background: linear-gradient(135deg, #cad5f3, #6e95df);
+    max-width: 1200px;
     margin: auto;
     padding: 30px;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
 }
 
-/* 標題 */
-h1 {
+/* 容器: 用來將左右欄位包裹起來 */
+.container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* 左側：新增支出表單 */
+.sidebar {
+    width: 500px;
+    min-width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 30px;
+}
+
+.sidebar h1 {
     text-align: center;
-    color: #9cb2d4; /* 淡米色調粉紅色 */
-    font-size: 2.5rem;
+    color: #9cb2d4;
+    font-size: 2rem;
     margin-bottom: 20px;
     font-weight: bold;
 }
 
-/* 記帳表單 */
-form {
-    background-color: #c8dae9; /* 淺米色背景 */
-    border-radius: 15px;
+/* 右側：支出紀錄 */
+.content {
+    flex: 1;
     padding: 20px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ 加入右側標題樣式 */
+.content h2 {
+    text-align: center;
+    color: #132746;
+    font-size: 2rem;
     margin-bottom: 20px;
-    width: 100%;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    font-weight: bold;
 }
 
 /* 表單內部元件 */
-form label {
-    font-size: 1.2rem;
-    color: #9cb0d4; /* 淡米色調粉紅色 */
-    margin-bottom: 8px;
-    display: block;
-}
-
-form input, form select, form button {
+form input,
+form select,
+form button {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
     border: 2px solid #9cb0d4;
     border-radius: 10px;
     font-size: 1.1rem;
-    color: #373f6f; /* 深米色文字 */
+    color: #373f6f;
     outline: none;
-    box-sizing: border-box;
-}
-
-/* 表單項目的focus效果 */
-form input:focus, form select:focus, form button:focus {
-    border-color: #6f98b4; /* 深米色 */
-    box-shadow: 0 0 5px rgba(111, 121, 180, 0.5);
 }
 
 /* 按鈕樣式 */
@@ -61,43 +70,48 @@ form button {
     background-color: #9cabd4;
     color: white;
     cursor: pointer;
-    border: none;
     font-weight: bold;
 }
 
 form button:hover {
-    background-color: #6f7fb4; /* 按鈕的深米色 hover */
+    background-color: #6f7fb4;
 }
 
 /* 記帳紀錄區域 */
-#records {
-    margin-top: 30px;
+.records-container {
+    padding: 20px;
+    border: 2px solid #9cabd4;
+    border-radius: 10px;
+    background-color: #f4f8fc;
 }
 
+/* 單筆紀錄樣式優化 */
 .record {
-    background-color: #e1e8f8; /* 記帳紀錄的背景顏色 */
+    background-color: #e1e8f8;
     border-radius: 12px;
     border: 1px solid #9cbbd4;
-    padding: 15px;
+    padding: 15px 20px;
     margin: 10px 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 記帳紀錄文字 */
 .record p {
-    margin: 8px 0;
-    color: #373d6f; /* 深米色文字 */
-    font-size: 1.1rem;
+    margin: 6px 0;
+    color: #373d6f;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    word-break: break-word;
 }
 
 .record strong {
-    color: #9ca9d4; /* 淡米色調粉紅色 */
-    font-weight: bold;
+    color: inherit;
+    font-weight: 500;
+    display: inline;
+    margin-right: 6px;
 }
 
-/* 記帳紀錄內部的間隔 */
-hr {
-    border: 1px solid #3a4a75;
-    margin-top: 10px;
-    margin-bottom: 10px;
+/* 滾動區域 */
+#records {
+    max-height: 80vh;
+    overflow-y: auto;
 }

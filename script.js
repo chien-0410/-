@@ -1,3 +1,4 @@
+// 格式化日期
 function formatDate(value) {
     const date = new Date(value);
     if (isNaN(date)) return value; // 若無法解析就直接返回原值
@@ -9,7 +10,7 @@ function formatDate(value) {
     return `${year}-${month}-${day}`;
 }
 
-// API 網址
+// API 網址（這個 URL 需要更新為你的實際 API）
 const apiUrl = "https://script.google.com/macros/s/AKfycbzdUXs7czaDkNaZRMnD2A0qCUEJZIFYpKhwjYDcn-0RdFNlVtHglia-OumZf9iHoYh8/exec";
 
 const form = document.getElementById("recordForm");
@@ -29,12 +30,11 @@ async function loadRecords() {
 
             const recordElement = document.createElement("div");
             recordElement.classList.add("record");
-            recordElement.innerHTML = `
-                <p><strong>日期：</strong>${date}</p>
-                <p><strong>類別：</strong>${category}</p>
-                <p><strong>金額：</strong>${amount}</p>
-                <p><strong>備註：</strong>${note}</p>
-            `;
+            recordElement.innerHTML = 
+                `<p><strong>日期：</strong>${date}</p>
+                 <p><strong>類別：</strong>${category}</p>
+                 <p><strong>金額：</strong>${amount}</p>
+                 <p><strong>備註：</strong>${note}</p>`;
             recordsContainer.appendChild(recordElement);
         }
     } catch (error) {
@@ -56,18 +56,24 @@ form.addEventListener("submit", async function (event) {
 
     const newRecord = { date, category, amount, note };
 
-    await fetch(apiUrl, {
-        method: "POST",
-        body: JSON.stringify(newRecord),
-        headers: { "Content-Type": "application/json" },
-        mode: "no-cors"  // 注意：無法獲得回應，但仍可送出資料
-    });
+    try {
+        await fetch(apiUrl, {
+            method: "POST",
+            body: JSON.stringify(newRecord),
+            headers: { "Content-Type": "application/json" },
+            mode: "no-cors"  // 注意：無法獲得回應，但仍可送出資料
+        });
 
-    form.reset();
-    alert("記帳成功！（請到 Google Sheets 查看資料）");
+        form.reset();
+        alert("記帳成功！（請到 Google Sheets 查看資料）");
 
-    setTimeout(loadRecords, 2000); // 延遲載入資料以等待 Sheets 更新
+        setTimeout(loadRecords, 2000); // 延遲載入資料以等待 Sheets 更新
+    } catch (error) {
+        console.error("新增記錄時發生錯誤：", error);
+        alert("新增失敗，請稍後再試！");
+    }
 });
 
 // 頁面載入時顯示資料
 window.addEventListener("load", loadRecords);
+
