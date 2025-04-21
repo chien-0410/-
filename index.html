@@ -40,25 +40,32 @@
         <div class="content">
             <h2>記帳紀錄</h2>
 
-            <!-- 月份篩選和總支出顯示區域 -->
-            <div class="filter">
-                <label for="month">選擇月份：</label>
-                <select id="month">
-                    <option value="01">1月</option>
-                    <option value="02">2月</option>
-                    <option value="03">3月</option>
-                    <option value="04">4月</option>
-                    <option value="05">5月</option>
-                    <option value="06">6月</option>
-                    <option value="07">7月</option>
-                    <option value="08">8月</option>
-                    <option value="09">9月</option>
-                    <option value="10">10月</option>
-                    <option value="11">11月</option>
-                    <option value="12">12月</option>
-                </select>
-                <div class="total"></div>
-            </div>
+            <!-- 新增選擇年份與月份 -->
+            <label for="year">年份：</label>
+            <select id="year">
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+
+            <label for="month">月份：</label>
+            <select id="month">
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+
+            <!-- 顯示該月份總支出 -->
+            <div class="total"></div>
 
             <div class="records-container">
                 <div id="records"></div>

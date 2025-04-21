@@ -17,13 +17,14 @@ const form = document.getElementById("recordForm");
 const recordsContainer = document.getElementById("records");
 const totalContainer = document.querySelector(".total");
 
-// 讀取並顯示紀錄，並根據月份篩選
+// 讀取並顯示紀錄，並根據年份和月份篩選
 async function loadRecords() {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
 
-        // 取得選擇的月份
+        // 取得選擇的年份和月份
+        const selectedYear = document.getElementById("year").value;
         const selectedMonth = document.getElementById("month").value;
 
         let totalAmount = 0;  // 用來統計總金額
@@ -33,9 +34,11 @@ async function loadRecords() {
             let [rawDate, category, amount, note] = data[i];
             let date = formatDate(rawDate);
 
-            // 篩選出指定月份的紀錄
+            // 篩選出指定年份和月份的紀錄
+            const recordYear = date.split("-")[0];  // 取出年份部分
             const recordMonth = date.split("-")[1];  // 取出月份部分
-            if (recordMonth === selectedMonth) {
+
+            if (recordYear === selectedYear && recordMonth === selectedMonth) {
                 totalAmount += amount;  // 累加該月支出
 
                 const recordElement = document.createElement("div");
@@ -83,11 +86,13 @@ form.addEventListener("submit", async function (event) {
         form.reset();
         alert("記帳成功！（請到 Google Sheets 查看資料）");
 
-        // 取得該紀錄的月份，並更新月份選擇器
+        // 取得該紀錄的年份與月份，並更新年份與月份選擇器
+        const recordYear = rawDate.split("-")[0];  // 提取紀錄的年份
         const recordMonth = rawDate.split("-")[1];  // 提取紀錄的月份
+        document.getElementById("year").value = recordYear;
         document.getElementById("month").value = recordMonth;
 
-        // 延遲載入資料以等待 Sheets 更新並顯示選定月份的紀錄
+        // 延遲載入資料以等待 Sheets 更新並顯示選定年份與月份的紀錄
         setTimeout(loadRecords, 2000);
     } catch (error) {
         console.error("新增記錄時發生錯誤：", error);
@@ -95,7 +100,8 @@ form.addEventListener("submit", async function (event) {
     }
 });
 
-// 監聽月份選擇器變化，並在選擇月份後重新載入該月份的紀錄
+// 監聽年份和月份選擇器變化，並在選擇年份或月份後重新載入該年份與月份的紀錄
+document.getElementById("year").addEventListener("change", loadRecords);
 document.getElementById("month").addEventListener("change", loadRecords);
 
 // 頁面載入時顯示資料
