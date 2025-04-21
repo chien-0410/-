@@ -27,7 +27,7 @@ async function loadRecords() {
         const selectedMonth = document.getElementById("month").value;
 
         let totalAmount = 0;  // 用來統計總金額
-        recordsContainer.innerHTML = "";
+        recordsContainer.innerHTML = "";  // 清空現有的紀錄
 
         for (let i = 1; i < data.length; i++) { // 略過標題列
             let [rawDate, category, amount, note] = data[i];
@@ -72,6 +72,7 @@ form.addEventListener("submit", async function (event) {
     const newRecord = { date, category, amount, note };
 
     try {
+        // 新增資料到 Google Sheets
         await fetch(apiUrl, {
             method: "POST",
             body: JSON.stringify(newRecord),
@@ -82,14 +83,19 @@ form.addEventListener("submit", async function (event) {
         form.reset();
         alert("記帳成功！（請到 Google Sheets 查看資料）");
 
-        setTimeout(loadRecords, 2000); // 延遲載入資料以等待 Sheets 更新
+        // 取得該紀錄的月份，並更新月份選擇器
+        const recordMonth = rawDate.split("-")[1];  // 提取紀錄的月份
+        document.getElementById("month").value = recordMonth;
+
+        // 延遲載入資料以等待 Sheets 更新並顯示選定月份的紀錄
+        setTimeout(loadRecords, 2000);
     } catch (error) {
         console.error("新增記錄時發生錯誤：", error);
         alert("新增失敗，請稍後再試！");
     }
 });
 
-// 監聽月份選擇器變化
+// 監聽月份選擇器變化，並在選擇月份後重新載入該月份的紀錄
 document.getElementById("month").addEventListener("change", loadRecords);
 
 // 頁面載入時顯示資料
