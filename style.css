@@ -20,13 +20,51 @@ body {
 /* 左側：新增支出表單 */
 .sidebar {
     width: 500px;
+    height: 620px;
     min-width: 500px;
+    max-width: 500px;
+    min-height: 620px;
+    max-height: 620px;
+    flex: 0 0 500px; /* 固定寬度 */
+    box-sizing: border-box;
     padding: 20px;
     background-color: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-right: 30px;
+    overflow: auto; /* 如果內容太多就顯示滾動條 */
 }
+
+/* 表單內部元件 */
+form input,
+form select,
+form button {
+    width: 100%;
+    height: 48px;                /* 統一高度 */
+    padding: 10px 14px;
+    margin: 10px 0;
+    border: 2px solid #9cb0d4;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    color: #373f6f;
+    outline: none;
+    box-sizing: border-box;      /* 防止 padding 撐開 */
+}
+
+/* 按鈕樣式 */
+form button {
+    background-color: #9cabd4;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+form button:hover {
+    background-color: #6f7fb4;
+}
+
+
 
 .sidebar h1 {
     text-align: center;
