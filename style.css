@@ -153,3 +153,25 @@ form button:hover {
     max-height: 80vh;
     overflow-y: auto;
 }
+/* 記帳紀錄區域 - 修改後顯示總支出和月份選擇器的樣式 */
+.filter {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filter select {
+    padding: 10px;
+    margin: 5px;
+    font-size: 1rem;
+}
+
+.total {
+    background-color: #f4f8fc;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid #9cbbd4;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #132746;
+}

@@ -15,28 +15,43 @@ const apiUrl = "https://script.google.com/macros/s/AKfycbzdUXs7czaDkNaZRMnD2A0qC
 
 const form = document.getElementById("recordForm");
 const recordsContainer = document.getElementById("records");
+const totalContainer = document.querySelector(".total");
 
-// 讀取並顯示紀錄
+// 讀取並顯示紀錄，並根據月份篩選
 async function loadRecords() {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
 
+        // 取得選擇的月份
+        const selectedMonth = document.getElementById("month").value;
+
+        let totalAmount = 0;  // 用來統計總金額
         recordsContainer.innerHTML = "";
 
         for (let i = 1; i < data.length; i++) { // 略過標題列
             let [rawDate, category, amount, note] = data[i];
             let date = formatDate(rawDate);
 
-            const recordElement = document.createElement("div");
-            recordElement.classList.add("record");
-            recordElement.innerHTML = 
-                `<p><strong>日期：</strong>${date}</p>
-                 <p><strong>類別：</strong>${category}</p>
-                 <p><strong>金額：</strong>${amount}</p>
-                 <p><strong>備註：</strong>${note}</p>`;
-            recordsContainer.appendChild(recordElement);
+            // 篩選出指定月份的紀錄
+            const recordMonth = date.split("-")[1];  // 取出月份部分
+            if (recordMonth === selectedMonth) {
+                totalAmount += amount;  // 累加該月支出
+
+                const recordElement = document.createElement("div");
+                recordElement.classList.add("record");
+                recordElement.innerHTML = 
+                    `<p><strong>日期：</strong>${date}</p>
+                     <p><strong>類別：</strong>${category}</p>
+                     <p><strong>金額：</strong>${amount}</p>
+                     <p><strong>備註：</strong>${note}</p>`;
+                recordsContainer.appendChild(recordElement);
+            }
         }
+
+        // 顯示該月總支出
+        totalContainer.innerHTML = `<p><strong>總支出：</strong>${totalAmount} 元</p>`;
+
     } catch (error) {
         console.error("讀取紀錄時發生錯誤：", error);
         recordsContainer.innerHTML = "<p style='color: red;'>載入失敗，請稍後再試</p>";
@@ -74,6 +89,8 @@ form.addEventListener("submit", async function (event) {
     }
 });
 
+// 監聽月份選擇器變化
+document.getElementById("month").addEventListener("change", loadRecords);
+
 // 頁面載入時顯示資料
 window.addEventListener("load", loadRecords);
-
